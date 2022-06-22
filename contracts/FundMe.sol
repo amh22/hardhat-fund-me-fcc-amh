@@ -53,7 +53,7 @@ contract FundMe {
             msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
             'You need to spend more ETH!'
         );
-        // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
+        // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to  ETH!");
         s_addressToAmountFunded[msg.sender] += msg.value;
         s_funders.push(msg.sender);
     }
@@ -119,6 +119,13 @@ contract FundMe {
         return s_priceFeed;
     }
 
+    fallback() external payable {
+        fund();
+    }
+
+    receive() external payable {
+        fund();
+    }
     // Explainer from: https://solidity-by-example.org/fallback/
     // Ether is sent to contract
     //      is msg.data empty?
